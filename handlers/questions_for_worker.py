@@ -1,5 +1,5 @@
 from aiogram import types
-from system_db import TableWorkerResponse
+from system_db import TableWorkerResponse,TableWorkers,TableChief
 from aiogram.dispatcher.storage import FSMContext
 from fsm import StateForWorker
 from handlers import btn,markup_generate
@@ -11,6 +11,8 @@ class QuestionsForWorker:
         self.dp = dp
         self.call = call
         self.table_worker_response = TableWorkerResponse()
+        self.table_workers = TableWorkers()
+        self.table_chief = TableChief()
     
     async def questions_for_worker(self):
         btns = btn(1)
@@ -123,5 +125,18 @@ class QuestionsForWorker:
                     self.table_worker_response.write(worker_id=call.message.chat.id,question_num=5,response=1)
                 else:
                     self.table_worker_response.write(worker_id=call.message.chat.id,question_num=5)
+                if self.table_worker_response.select_result(call.message.chat.id) >= 5:
+                    markup = types.InlineKeyboardMarkup(row_width=1)
+                    username = self.table_workers.select_username(call.message.chat.id)
+                    result = types.InlineKeyboardButton(text='Посмотреть результаты',callback_data=f'get_{username}')
+                    markup.add(result)
+                    for _ in range(len(username)):
+                        if username[-1] != '#':
+                            username = username[:-1]
+                        else:
+                            username = username[:-1]
+                            break
+                    chief_id = self.table_chief.select_id(call.message.chat.id)
+                    await self.bot.send_message(chat_id=int(chief_id),text=f'Ваш сотрудник {username} окончил тест',reply_markup=markup)
                 await self.bot.send_message(chat_id=call.message.chat.id,text='Вы закончили тест.\nПерспектива для выгориния "Какой-то процент%"\nВашему начальнику придут результаты')
                 await state.finish()

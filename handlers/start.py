@@ -16,18 +16,15 @@ class Start:
         markup = types.InlineKeyboardMarkup(row_width=1)
         data = self.message.text[7:]
         if data:
-            username = ''
-            ref_id = ''
-            for _ in data:
-                if data[0] != '_':
-                    ref_id = f'{ref_id}{data[0]}'
-                    data = data[1:]
-                else:
-                    data = data[1:]
-                    username = data
-                    break
+            data = data.split('_')
+            print(data)
+            ref_id = data[0]
+            print(ref_id)
+            username = data[1]
             if check_referrals(ref_id,str(self.message.chat.id)):
-                self.table_worker.write(self.message.chat.id,ref_id,username)
+
+                self.table_worker.update_user_id(self.message.chat.id,f'{username}_{data[2]}')
+                print(f'{username}_{data[2]}')
                 markup.add(btn_start_for_worker)
                 await self.bot.send_message(chat_id=self.message.chat.id,text='Ваш начальник выслал вам тест',reply_markup=markup)
             else:

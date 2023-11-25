@@ -1,7 +1,7 @@
 from aiogram import types
 from os import getenv
 from dotenv import load_dotenv
-from system_db import TableChiefResponse
+from system_db import TableChiefResponse,TableWorkers
 from aiogram.dispatcher.storage import FSMContext
 from fsm import StateForChief
 from handlers import btn,markup_generate,btn_add_worker,btn_my_workers
@@ -13,6 +13,7 @@ class QuestionForChief:
         self.dp = dp
         self.call = call
         self.table_chief_response = TableChiefResponse()
+        self.table_workers = TableWorkers()
 
     async def question_for_chief(self):
         await self.bot.send_message(chat_id=self.call.message.chat.id,text='Введите имя сотрудника')
@@ -81,7 +82,9 @@ class QuestionForChief:
                 if self.table_chief_response.select_count_response(call.message.chat.id) >= 3:
                     load_dotenv()
                     data = await state.get_data()
-                    await self.bot.send_message(chat_id=call.message.chat.id,text=f'Ваша реферальная ссылка\n<code>{getenv("LINK")}{call.message.chat.id}_{data["username"]}</code>',reply_markup=markup)
+                    username = f'{data["username"]}_{self.table_workers.get_index_for_username(self.call.message.chat.id)}'
+                    self.table_workers.write(self.call.message.chat.id,username)
+                    await self.bot.send_message(chat_id=call.message.chat.id,text=f'Ваша реферальная ссылка\n<code>{getenv("LINK")}{call.message.chat.id}_{username}</code>',reply_markup=markup)
                 else:
                     await self.bot.send_message(chat_id=call.message.chat.id,text='Выгораемость сотрудника мало вероятна')
                 await state.finish()
