@@ -43,6 +43,7 @@ class TableWorkerResponse:
                            SELECT worker_id FROM workers WHERE username = ?
                            )
                            GROUP BY date_response""",(username,)).fetchall()
+            print(username)
             return dates
         
     def delete(self,user_id):
@@ -57,14 +58,15 @@ class TableWorkerResponse:
     def select_result_by_date(self,username,date):
         with connect(r"system_db\db.db") as db:
             cursor = db.cursor()
+            print(username)
             result = cursor.execute("""SELECT COUNT(date_response),date_response FROM worker_response
                            WHERE worker_id = (
                            SELECT worker_id FROM workers WHERE username = ?
                            )
                            AND date_response = ?""",
-                           (username,date)
+                           (username[0],date)
                            ).fetchone()
-            percent = f"{result[0]}%"
+            percent = f"{result[0]*10}%"
             return percent,result[1]
             
         

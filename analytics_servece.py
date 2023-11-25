@@ -6,7 +6,9 @@ from handlers import QuestionsForWorker
 from handlers import MyWorkers
 from handlers import GetWorker
 from handlers import GetDateWorker
+from handlers import MainMenu
 from handlers import GetDataForWorker
+from handlers import AddWorker
 
 class AnalyticsServec(Create):
     def __init__(self):
@@ -37,6 +39,15 @@ class AnalyticsServec(Create):
 
             if call.data[:4] == 'get:':
                 await GetDataForWorker(self.bot,call).get_data_for_worker()
+
+            if call.data == 'dates_worker':
+                await GetDateWorker(self.bot,call).get_date_worker()
+
+            if call.data == 'main_menu':
+                await MainMenu(self.bot,call).main_menu()
+
+            if call.data == 'add_worker':
+                await AddWorker(self.bot,call).add_worker()
                 
         executor.start_polling(self.dp)
         

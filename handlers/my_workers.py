@@ -21,5 +21,6 @@ class MyWorkers:
                     username = username[:-1]
                     btn_worker = types.InlineKeyboardButton(text=f'{username}',callback_data=f'get_{worker[0]}')
                     markup.add(btn_worker)
-
+        back = types.InlineKeyboardButton(text='Назад',callback_data='main_menu')
+        markup.add(back)
         await self.bot.send_message(chat_id=self.call.message.chat.id,text='Ваши сотрудники',reply_markup=markup)

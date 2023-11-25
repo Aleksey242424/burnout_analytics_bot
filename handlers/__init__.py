@@ -7,4 +7,7 @@ from handlers.questions_for_worker import QuestionsForWorker
 from handlers.my_workers import MyWorkers
 from handlers.get_worker import GetWorker
 from handlers.get_date_worker import GetDateWorker
+from handlers.get_date_for_worker_back import GetDateForWorkerBack
+from handlers.main_menu import MainMenu
 from handlers.get_data_for_worker import GetDataForWorker
+from handlers.add_worker import AddWorker
