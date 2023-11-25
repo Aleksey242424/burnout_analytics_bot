@@ -2,7 +2,7 @@ from sqlite3 import connect,IntegrityError
 
 class TableChiefResponse:
     def write(self,chief_id,question_num,response=0):
-        with connect(r'burnout_analytics_bot/system_db/db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             cursor.execute("BEGIN TRANSACTION;")
             try:
@@ -15,12 +15,12 @@ class TableChiefResponse:
 
 
     def delete(self,user_id):
-        with connect(r'burnout_analytics_bot/system_db/db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             cursor.execute("""DELETE FROM chief_respons WHERE chief_id = (SELECT chief_id FROM chief WHERE user_id = ?)""",(user_id,))
     
     def select_count_response(self,user_id):
-        with connect(r'burnout_analytics_bot/system_db/db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             count_response = cursor.execute("""SELECT COUNT(response) FROM chief_respons
                            WHERE chief_id = (SELECT chief_id FROM chief WHERE user_id = ?)

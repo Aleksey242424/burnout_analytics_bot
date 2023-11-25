@@ -11,12 +11,11 @@ class MyWorkers:
 
     async def my_workers(self):
         workers = self.table_workers.select_workers(self.call.message.chat.id)
-        print(workers)
         markup = types.InlineKeyboardMarkup(row_width=1)
         for worker in workers:
             username = worker[0]
             for _ in range(len(username)):
-                if username[-1] != '#':
+                if username[-1] != '_':
                     username = username[:-1]
                 else:
                     username = username[:-1]

@@ -67,9 +67,9 @@ class QuestionsForWorker:
         async def question_6_for_worker(call:types.CallbackQuery):
             if call.data[-1] == '5':
                 if call.data == 'yes_5':
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=4,response=1)
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=5,response=1)
                 else:
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=4)
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=5)
                 btns = btn(6)
                 markup = markup_generate(btns)
                 await self.bot.send_message(chat_id=call.message.chat.id,text='Чувствуете ли Вы, что постоянно находитесь под давлением и испытываете стресс?',reply_markup=markup)
@@ -77,10 +77,10 @@ class QuestionsForWorker:
         @self.dp.callback_query_handler(state=StateForWorker.question_7)
         async def question_5_for_worker(call:types.CallbackQuery):
             if call.data[-1] == '6':
-                if call.data == 'yes_6ё':
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=4,response=1)
+                if call.data == 'yes_6':
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=6,response=1)
                 else:
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=4)
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=6)
                 btns = btn(7)
                 markup = markup_generate(btns)
                 await self.bot.send_message(chat_id=call.message.chat.id,text='Чувствуете ли Вы, что не можете делать перерывы и отвлекаться от работы, когда это необходимо?',reply_markup=markup)
@@ -89,9 +89,9 @@ class QuestionsForWorker:
         async def question_5_for_worker(call:types.CallbackQuery):
             if call.data[-1] == '7':
                 if call.data == 'yes_7':
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=4,response=1)
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=7,response=1)
                 else:
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=4)
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=7)
                 btns = btn(8)
                 markup = markup_generate(btns)
                 await self.bot.send_message(chat_id=call.message.chat.id,text='Чувствуете ли Вы, что не можете эффективно совмещать работу и личную жизнь?',reply_markup=markup)
@@ -100,9 +100,9 @@ class QuestionsForWorker:
         async def question_5_for_worker(call:types.CallbackQuery):
             if call.data[-1] == '8':
                 if call.data == 'yes_8':
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=4,response=1)
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=8,response=1)
                 else:
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=4)
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=8)
                 btns = btn(9)
                 markup = markup_generate(btns)
                 await self.bot.send_message(chat_id=call.message.chat.id,text='Считаете ли Вы, что не можете донести свои проблемы и потребности до руководителя или коллег?',reply_markup=markup)
@@ -111,9 +111,9 @@ class QuestionsForWorker:
         async def question_5_for_worker(call:types.CallbackQuery):
             if call.data[-1] == '9':
                 if call.data == 'yes_9':
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=4,response=1)
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=9,response=1)
                 else:
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=4)
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=9)
                 btns = btn(10)
                 markup = markup_generate(btns)
                 await self.bot.send_message(chat_id=call.message.chat.id,text='Считаете ли Вы, что Вас не ценят и не признают Ваш вклад в работу?',reply_markup=markup)
@@ -122,16 +122,16 @@ class QuestionsForWorker:
         async def result_for_worker(call:types.CallbackQuery,state=FSMContext):
             if call.data[-1] == '0':
                 if call.data == 'yes_10':
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=5,response=1)
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=10,response=1)
                 else:
-                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=5)
+                    self.table_worker_response.write(worker_id=call.message.chat.id,question_num=10)
                 if self.table_worker_response.select_result(call.message.chat.id) >= 5:
                     markup = types.InlineKeyboardMarkup(row_width=1)
                     username = self.table_workers.select_username(call.message.chat.id)
-                    result = types.InlineKeyboardButton(text='Посмотреть результаты',callback_data=f'get_{username}')
+                    result = types.InlineKeyboardButton(text='Посмотреть результаты',callback_data=f'get-{username}')
                     markup.add(result)
                     for _ in range(len(username)):
-                        if username[-1] != '#':
+                        if username[-1] != '_':
                             username = username[:-1]
                         else:
                             username = username[:-1]

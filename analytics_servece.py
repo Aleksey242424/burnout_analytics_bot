@@ -5,6 +5,7 @@ from handlers import QuestionForChief
 from handlers import QuestionsForWorker
 from handlers import MyWorkers
 from handlers import GetWorker
+from handlers import GetDateWorker
 
 class AnalyticsServec(Create):
     def __init__(self):
@@ -28,6 +29,9 @@ class AnalyticsServec(Create):
                 await MyWorkers(self.bot,call).my_workers()
 
             if call.data[:4] == 'get_':
+                await GetDateWorker(self.bot,call).get_date_worker()
+                
+            if call.data[:4] == 'get-':
                 await GetWorker(self.bot,call).get_worker()
                 
         executor.start_polling(self.dp)

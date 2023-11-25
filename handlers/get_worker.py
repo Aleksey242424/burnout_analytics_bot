@@ -9,11 +9,11 @@ class GetWorker:
 
     async def get_worker(self):
         username = self.call.data[4:]
+        percent = self.table_worker_response.get_percent(username)
         for _ in range(len(username)):
-            if username[-1] != '#':
+            if username[-1] != '_':
                 username = username[:-1]
             else:
                 username = username[:-1]
                 break
-        percent = self.table_worker_response.get_percent(username)
         await self.bot.send_message(chat_id=self.call.message.chat.id,text=percent)

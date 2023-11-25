@@ -2,7 +2,7 @@ from sqlite3 import connect,IntegrityError
 
 class TableWorkers:
     def write(self,ref_id,username):
-        with connect(r'burnout_analytics_bot/system_db/db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             cursor.execute("BEGIN TRANSACTION;")
             try:
@@ -14,12 +14,12 @@ class TableWorkers:
                 cursor.execute("ROLLBACK;")
 
     def update_user_id(self,user_id,username):
-        with connect(r'burnout_analytics_bot/system_db/db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             cursor.execute("""UPDATE workers SET user_id=? WHERE username = ?""",(user_id,username))
 
     def get_index_for_username(self,ref_id):
-        with connect(r'burnout_analytics_bot/system_db/db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             index = cursor.execute("""SELECT COUNT(worker_id) FROM workers
                            GROUP BY ref_id HAVING ref_id = (SELECT chief_id FROM chief
@@ -29,20 +29,20 @@ class TableWorkers:
             return 0
         
     def select_workers(self,chief_id):
-        with connect(r'burnout_analytics_bot/system_db/db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             workers = cursor.execute("""SELECT username FROM workers 
-                           WHERE ref_id = ?""",(chief_id,)).fetchall()
+                           WHERE ref_id = (SELECT chief_id FROM chief WHERE user_id = ?)""",(chief_id,)).fetchall()
             return workers
         
     def select_chief_id(self,user_id):
-        with connect(r"burnout_analytics_bot/system_db/db.db") as db:
+        with connect(r"system_db/db.db") as db:
             cursor = db.cursor()
             ref_id = cursor.execute("""SELECT ref_id FROM workers WHERE user_id = ?""",(user_id,)
                                     ).fetchone()
             return ref_id[0]
     def select_username(self,user_id):
-        with connect(r'burnout_analytics_bot/system_db/db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             username = cursor.execute("""SELECt username FROM workers
                            WHERE user_id = ?""",
