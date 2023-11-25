@@ -6,7 +6,8 @@ class TableTemp:
         with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             cursor.execute("""INSERT INTO temp(chief_id)
-                           VALUES(?)""",(chief_id,))
+                           VALUES((SELECT chief_id FROM chief
+                           WHERE user_id = ?))""",(chief_id,))
             
     def update_username_worker(self,chief_id,username):
         with connect(r'system_db/db.db') as db:

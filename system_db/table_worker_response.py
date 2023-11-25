@@ -39,9 +39,10 @@ class TableWorkerResponse:
         with connect(r'system_db\db.db') as db:
             cursor = db.cursor()
             dates = cursor.execute("""SELECT date_response FROM worker_response
-                           GROUP BY date_response HAVING worker_id = (
+                                   WHERE worker_id = (
                            SELECT worker_id FROM workers WHERE username = ?
-                           )""",(username,)).fetchall()
+                           )
+                           GROUP BY date_response""",(username,)).fetchall()
             return dates
         
     def delete(self,user_id):

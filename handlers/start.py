@@ -1,5 +1,5 @@
 from aiogram import types
-from system_db import TableChief,TableWorkers,TableChiefResponse,TableWorkerResponse
+from system_db import TableChief,TableWorkers,TableChiefResponse,TableWorkerResponse,TableTemp
 from handlers import btn_start_for_worker,btn_start_for_chief
 from handlers.check_referrals import check_referrals
 
@@ -12,6 +12,7 @@ class Start:
         self.table_worker = TableWorkers()
         self.table_chief_response = TableChiefResponse()
         self.table_worker_response = TableWorkerResponse()
+        self.table_temp = TableTemp()
 
     async def start(self):
         markup = types.InlineKeyboardMarkup(row_width=1)
@@ -35,6 +36,7 @@ class Start:
                 markup.add(btn_start_for_chief)
                 await self.bot.send_message(chat_id=self.message.chat.id,text='Здравствуйте, я бот для определения рисков выгорания у сотрудника',reply_markup=markup)
         else:
+            self.table_temp.write(self.message.chat.id)
             self.table_chief.write(self.message.chat.id)
             self.table_chief_response.delete(self.message.chat.id)
             markup.add(btn_start_for_chief)

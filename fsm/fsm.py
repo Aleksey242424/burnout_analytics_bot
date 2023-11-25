@@ -1,4 +1,4 @@
-from aiogram.dispatcher.filters.state import StatesGroup,State
+from packages.aiogram.dispatcher.filters.state import StatesGroup,State
 
 class StateForChief(StatesGroup):
     username = State()
