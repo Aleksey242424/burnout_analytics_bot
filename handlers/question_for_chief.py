@@ -22,7 +22,7 @@ class QuestionForChief:
             await state.update_data(username=message.text)
             btns = btn(1)
             markup = markup_generate(btns)
-            await self.bot.send_message(chat_id=self.call.message.chat.id,text='Вопрос 1\nдля начальника',reply_markup=markup)
+            await self.bot.send_message(chat_id=self.call.message.chat.id,text='Было ли замечено ухудшение качества работы(если сотрудник начинает делать ошибки, не выполнять задачи или работать медленнее, чем раньше)',reply_markup=markup)
             await StateForChief.question_2.set()
         @self.dp.callback_query_handler(state=StateForChief.question_2)
         async def question_2_for_chief(call:types.CallbackQuery):
@@ -33,7 +33,7 @@ class QuestionForChief:
                     self.table_chief_response.write(chief_id=call.message.chat.id,question_num=1)
                 btns = btn(2)
                 markup = markup_generate(btns)
-                await self.bot.send_message(chat_id=call.message.chat.id,text='Вопрос 2\nдля начальника',reply_markup=markup)
+                await self.bot.send_message(chat_id=call.message.chat.id,text='Было ли замечено уменьшение мотивации(если сотрудник теряет интерес к своей работе, перестает стремиться к достижению целей и не хочет принимать на себя новые задачи)',reply_markup=markup)
                 await StateForChief.question_3.set()
         @self.dp.callback_query_handler(state=StateForChief.question_3)
         async def question_3_for_chief(call:types.CallbackQuery):
@@ -44,7 +44,7 @@ class QuestionForChief:
                     self.table_chief_response.write(chief_id=call.message.chat.id,question_num=2)
                 btns = btn(3)
                 markup = markup_generate(btns)
-                await self.bot.send_message(chat_id=call.message.chat.id,text='Вопрос 3\nдля начальника',reply_markup=markup)
+                await self.bot.send_message(chat_id=call.message.chat.id,text='Было ли замечено увеличение отсутствий(если сотрудник начинает часто болеть или пропускать работу без уважительных причин)',reply_markup=markup)
                 await StateForChief.question_4.set()
         @self.dp.callback_query_handler(state=StateForChief.question_4)
         async def question_4_for_chief(call:types.CallbackQuery):
@@ -55,10 +55,10 @@ class QuestionForChief:
                     self.table_chief_response.write(chief_id=call.message.chat.id,question_num=3)
                 btns = btn(4)
                 markup = markup_generate(btns)
-                await self.bot.send_message(chat_id=call.message.chat.id,text='Вопрос 4\nдля начальника',reply_markup=markup)
+                await self.bot.send_message(chat_id=call.message.chat.id,text='Было ли замечено ухудшение взаимодействия с коллегами и руководством (если сотрудник начинает избегать общения с коллегами и руководством)',reply_markup=markup)
                 await StateForChief.question_5.set()
         @self.dp.callback_query_handler(state=StateForChief.question_5)
-        async def question_5_for_chief(call:types.CallbackQuery,state=FSMContext):
+        async def question_5_for_chief(call:types.CallbackQuery):
             if call.data[-1] == '4':
                 if call.data == 'yes_4':
                     self.table_chief_response.write(chief_id=call.message.chat.id,question_num=4,response=1)
@@ -66,7 +66,7 @@ class QuestionForChief:
                     self.table_chief_response.write(chief_id=call.message.chat.id,question_num=4)
                 btns = btn(5)
                 markup = markup_generate(btns)
-                await self.bot.send_message(chat_id=call.message.chat.id,text='Вопрос 5\nдля начальника',reply_markup=markup)
+                await self.bot.send_message(chat_id=call.message.chat.id,text='Было ли замечено увеличение стресса и тревоги(если сотрудник начинает испытывать высокий уровень стресса и тревоги)',reply_markup=markup)
                 await StateForChief.result.set()
         @self.dp.callback_query_handler(state=StateForChief.result)
         async def result_for_chief(call:types.CallbackQuery,state=FSMContext):
@@ -77,8 +77,11 @@ class QuestionForChief:
                     self.table_chief_response.write(chief_id=call.message.chat.id,question_num=5,response=1)
                 else:
                     self.table_chief_response.write(chief_id=call.message.chat.id,question_num=5)
-                load_dotenv()
-                data = await state.get_data()
                 await self.bot.send_message(chat_id=call.message.chat.id,text='Вы завершили тест')
-                await self.bot.send_message(chat_id=call.message.chat.id,text=f'Ваша реферальная ссылка\n<code>{getenv("LINK")}{call.message.chat.id}_{data["username"]}</code>',reply_markup=markup)
+                if self.table_chief_response.select_count_response(call.message.chat.id) >= 3:
+                    load_dotenv()
+                    data = await state.get_data()
+                    await self.bot.send_message(chat_id=call.message.chat.id,text=f'Ваша реферальная ссылка\n<code>{getenv("LINK")}{call.message.chat.id}_{data["username"]}</code>',reply_markup=markup)
+                else:
+                    await self.bot.send_message(chat_id=call.message.chat.id,text='Выгораемость сотрудника мало вероятна')
                 await state.finish()

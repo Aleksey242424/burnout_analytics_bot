@@ -34,7 +34,7 @@ class Start:
                 self.table_chief.write(self.message.chat.id)
                 self.table_chief_response.delete(self.message.chat.id)
                 markup.add(btn_start_for_chief)
-                await self.bot.send_message(chat_id=self.message.chat.id,text='Тест для аналитике выгораемости сотрудника',reply_markup=markup)
+                await self.bot.send_message(chat_id=self.message.chat.id,text='Здравствуйте, я бот для определения рисков выгорания у сотрудника',reply_markup=markup)
         else:
             self.table_chief.write(self.message.chat.id)
             self.table_chief_response.delete(self.message.chat.id)

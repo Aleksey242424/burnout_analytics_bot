@@ -19,3 +19,10 @@ class TableChiefResponse:
             cursor = db.cursor()
             cursor.execute("""DELETE FROM chief_respons WHERE chief_id = (SELECT chief_id FROM chief WHERE user_id = ?)""",(user_id,))
     
+    def select_count_response(self,user_id):
+        with connect(r'burnout_analytics_bot/system_db/db.db') as db:
+            cursor = db.cursor()
+            count_response = cursor.execute("""SELECT COUNT(response) FROM chief_respons
+                           WHERE chief_id = (SELECT chief_id FROM chief WHERE user_id = ?)
+                           AND response = 1""",(user_id,)).fetchone()
+            return count_response[0]
