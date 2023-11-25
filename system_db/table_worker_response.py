@@ -53,4 +53,18 @@ class TableWorkerResponse:
                            (SELECT worker_id FROM workers WHERE user_id = ?) AND date_response = ?""",
                            (user_id,date))
 
+
+    def select_result_by_date(self,username,date):
+        with connect(r"system_db\db.db") as db:
+            cursor = db.cursor()
+            result = cursor.execute("""SELECT COUNT(date_response),date_response FROM worker_response
+                           WHERE worker_id = (
+                           SELECT worker_id FROM workers WHERE username = ?
+                           )
+                           AND date_response = ?""",
+                           (username,date)
+                           ).fetchone()
+            percent = f"{result[0]}%"
+            return percent,result[1]
+            
         

@@ -1,4 +1,4 @@
-from packages.aiogram import types,executor
+from aiogram import types,executor
 from create import Create
 from handlers import Start
 from handlers import QuestionForChief
@@ -6,6 +6,7 @@ from handlers import QuestionsForWorker
 from handlers import MyWorkers
 from handlers import GetWorker
 from handlers import GetDateWorker
+from handlers import GetDataForWorker
 
 class AnalyticsServec(Create):
     def __init__(self):
@@ -33,6 +34,9 @@ class AnalyticsServec(Create):
                 
             if call.data[:4] == 'get-':
                 await GetWorker(self.bot,call).get_worker()
+
+            if call.data[:4] == 'get:':
+                await GetDataForWorker(self.bot,call).get_data_for_worker()
                 
         executor.start_polling(self.dp)
         
