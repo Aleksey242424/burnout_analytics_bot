@@ -11,3 +11,6 @@ from handlers.get_date_for_worker_back import GetDateForWorkerBack
 from handlers.main_menu import MainMenu
 from handlers.get_data_for_worker import GetDataForWorker
 from handlers.add_worker import AddWorker
+from handlers.recommendations import Recomendations
+from handlers.left import Left
+from handlers.right import Right

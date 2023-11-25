@@ -9,6 +9,8 @@ from handlers import GetDateWorker
 from handlers import MainMenu
 from handlers import GetDataForWorker
 from handlers import AddWorker
+from handlers import Recomendations
+from handlers import Right,Left
 
 class AnalyticsServec(Create):
     def __init__(self):
@@ -48,6 +50,15 @@ class AnalyticsServec(Create):
 
             if call.data == 'add_worker':
                 await AddWorker(self.bot,call).add_worker()
+
+            if call.data == 'recommendation':
+                await Recomendations(self.bot,call).recomendations()
+
+            if call.data == 'right':
+                await Right(self.bot,call).right()
+            
+            if call.data == 'left':
+                await Left(self.bot,call).left()
                 
         executor.start_polling(self.dp)
         
