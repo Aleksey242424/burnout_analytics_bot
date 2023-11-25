@@ -45,7 +45,7 @@ class TableWorkerResponse:
             return dates
         
     def delete(self,user_id):
-        with connect(r'burnout_analytics_bot\system_db\db.db') as db:
+        with connect(r'system_db\db.db') as db:
             date = DateTime().Date()
             cursor = db.cursor()
             cursor.execute("""DELETE FROM worker_response WHERE worker_id = 
