@@ -138,5 +138,5 @@ class QuestionsForWorker:
                             break
                     chief_id = self.table_chief.select_id(call.message.chat.id)
                     await self.bot.send_message(chat_id=int(chief_id),text=f'Ваш сотрудник {username} окончил тест',reply_markup=markup)
-                await self.bot.send_message(chat_id=call.message.chat.id,text='Вы закончили тест.\nПерспектива для выгориния "Какой-то процент%"\nВашему начальнику придут результаты')
+                await self.bot.send_message(chat_id=call.message.chat.id,text='Тест пройден, спасибо за потраченное время.\nВашему начальнику придут результаты')
                 await state.finish()

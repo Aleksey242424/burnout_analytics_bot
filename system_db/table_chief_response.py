@@ -1,6 +1,11 @@
 from sqlite3 import connect,IntegrityError
 
 class TableChiefResponse:
+    __instance = None
+    def __new__(cls):
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+        return cls.__instance
     def write(self,chief_id,question_num,response=0):
         with connect(r'system_db/db.db') as db:
             cursor = db.cursor()

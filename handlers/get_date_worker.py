@@ -12,9 +12,14 @@ class GetDateWorker:
         markup = types.InlineKeyboardMarkup(row_width=1)
         username = self.call.data[4:]
         dates = self.table_worker_response.select_date(username)
-        self.table_temp.update_username_worker(self.call.message.chat.id,username)
-        for date in dates:
-            btn_date = types.InlineKeyboardButton(text=f'{date[0]}',callback_data=f'get:{date[0]}')
-            markup.add(btn_date)
-        self.table_temp.update_username_worker(self.call.message.chat.id,username)
-        await self.bot.send_message(chat_id=self.call.message.chat.id,text='Даты провождения теста',reply_markup = markup)
+        back = types.InlineKeyboardButton(text='Назад',callback_data='main_menu')
+        if dates:
+            self.table_temp.update_username_worker(self.call.message.chat.id,username)
+            for date in dates:
+                btn_date = types.InlineKeyboardButton(text=f'{date[0]}',callback_data=f'get:{date[0]}')
+                markup.add(btn_date)
+            self.table_temp.update_username_worker(self.call.message.chat.id,username)
+            await self.bot.send_message(chat_id=self.call.message.chat.id,text='Даты провождения теста',reply_markup = markup)
+        else:
+            markup.add(back)
+            await self.bot.send_message(chat_id=self.call.message.chat.id,text='Сотрудник пока не прошёл тест',reply_markup = markup)
