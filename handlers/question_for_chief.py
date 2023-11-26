@@ -86,5 +86,8 @@ class QuestionForChief:
                     self.table_workers.write(self.call.message.chat.id,username)
                     await self.bot.send_message(chat_id=call.message.chat.id,text=f'Для более глубокого изучения проблемы отправьте ссылку сотруднику\n<code>{getenv("LINK")}{call.message.chat.id}_{username}</code>',reply_markup=markup)
                 else:
-                    await self.bot.send_message(chat_id=call.message.chat.id,text='Выгораемость сотрудника мало вероятна')
+                    markup = types.InlineKeyboardMarkup(row_width=1)
+                    back = types.InlineKeyboardButton(text='Назад',callback_data='main_menu')
+                    markup.add(back)
+                    await self.bot.send_message(chat_id=call.message.chat.id,text='Выгораемость сотрудника мало вероятна',reply_markup=markup)
                 await state.finish()
