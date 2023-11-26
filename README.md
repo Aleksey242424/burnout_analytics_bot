@@ -2,4 +2,4 @@
 
 main.py для запуска проекта
 
-https://t.me/analytics_servece_bot
+@Analytics_burnout_bot
