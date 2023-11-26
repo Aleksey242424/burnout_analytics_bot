@@ -25,7 +25,7 @@ class TableWorkerResponse:
             return count_response[0]
         
     def get_percent(self,username):
-        with connect(r'system_db\db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             count_response = cursor.execute("""SELECT COUNT(response),date_response FROM worker_response WHERE response = 1 AND
                            worker_id = (SELECT worker_id FROM workers WHERE 
@@ -34,7 +34,7 @@ class TableWorkerResponse:
             return percent
         
     def select_date(self,username):
-        with connect(r'system_db\db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             dates = cursor.execute("""SELECT date_response FROM worker_response
                                    WHERE worker_id = (
@@ -44,7 +44,7 @@ class TableWorkerResponse:
             return dates
         
     def delete(self,user_id):
-        with connect(r'system_db\db.db') as db:
+        with connect(r'system_db/db.db') as db:
             date = DateTime().Date()
             cursor = db.cursor()
             cursor.execute("""DELETE FROM worker_response WHERE worker_id = 
@@ -53,7 +53,7 @@ class TableWorkerResponse:
 
 
     def select_result_by_date(self,username,date):
-        with connect(r"system_db\db.db") as db:
+        with connect(r"system_db/db.db") as db:
             cursor = db.cursor()
             print(username)
             result = cursor.execute("""SELECT COUNT(date_response),date_response FROM worker_response

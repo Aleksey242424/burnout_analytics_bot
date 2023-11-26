@@ -25,7 +25,7 @@ class TableTemp:
                            (page,chief))
     
     def select_page(self,chief_id):
-        with connect(r'system_db\db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             page = cursor.execute("""SELECT page FROM temp
                            WHERE chief_id = (SELECT chief_id FROM chief
@@ -33,7 +33,7 @@ class TableTemp:
             return page[0]
 
     def select_username_worker(self,chief_id):
-        with connect(r'system_db\db.db') as db:
+        with connect(r'system_db/db.db') as db:
             cursor = db.cursor()
             username = cursor.execute("""SELECT username_worker FROM temp
                            WHERE chief_id = (SELECT chief_id FROM chief
